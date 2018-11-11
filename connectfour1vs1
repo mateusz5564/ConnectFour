@@ -2,84 +2,87 @@ import numpy as np
 import pygame
 import sys
 
-
 liczba_wierszy = 6
 liczba_kolumn = 7
+
 
 def stworz_plansze():
     plansza = np.zeros((6, 7))
     return plansza
 
+
 def wrzuc_zeton(plansza, row, kolumna, zeton):
     plansza[row][kolumna] = zeton
 
+
 def czy_jest_miejsce_w_kolumnie(plansza, kolumna):
     return plansza[0][kolumna] == 0
+
 
 def znajdz_nastepny_wolny_wiersz(plansza, kolumna):
     for row in range(liczba_wierszy - 1, -1, -1):
         if plansza[row][kolumna] == 0:
             return row
 
+
 def czy_wygral(plansza, zeton):
-    #horyzontalnie
+    # horyzontalnie
     for col in range(liczba_kolumn - 3):
         for row in range(liczba_wierszy):
-            if(plansza[row][col] == zeton and plansza[row][col + 1] == zeton and plansza[row][col + 2] == zeton and plansza[row][col + 3] == zeton):
+            if (plansza[row][col] == zeton and plansza[row][col + 1] == zeton and plansza[row][col + 2] == zeton and
+                    plansza[row][col + 3] == zeton):
                 return True
 
-    #wertykalnie
+    # wertykalnie
     for col in range(liczba_kolumn):
         for row in range(liczba_wierszy - 3):
-            if(plansza[row][col] == zeton and plansza[row + 1][col] == zeton and plansza[row + 2][col] == zeton and plansza[row + 3][col] == zeton):
+            if (plansza[row][col] == zeton and plansza[row + 1][col] == zeton and plansza[row + 2][col] == zeton and
+                    plansza[row + 3][col] == zeton):
                 return True
 
-    #na skos w prawo-dol
+    # na skos w prawo-dol
     for col in range(liczba_kolumn - 3):
         for row in range(liczba_wierszy - 3):
-            if (plansza[row][col] == zeton and plansza[row + 1][col + 1] == zeton and plansza[row + 2][col + 2] == zeton and plansza[row + 3][col + 3] == zeton):
+            if (plansza[row][col] == zeton and plansza[row + 1][col + 1] == zeton and plansza[row + 2][
+                col + 2] == zeton and plansza[row + 3][col + 3] == zeton):
                 return True
 
-    #na skos w lewo-dol
+    # na skos w lewo-dol
     for col in range(3, liczba_kolumn):
         for row in range(liczba_wierszy - 3):
-            if (plansza[row][col] == zeton and plansza[row + 1][col - 1] == zeton and plansza[row + 2][col - 2] == zeton and plansza[row + 3][col - 3] == zeton):
+            if (plansza[row][col] == zeton and plansza[row + 1][col - 1] == zeton and plansza[row + 2][
+                col - 2] == zeton and plansza[row + 3][col - 3] == zeton):
                 return True
-
-
-def stworz_plansze():
-    for col in range(liczba_kolumn):
-        for row in range(liczba_wierszy):
-            pygame.draw.rect(screen, BLUE, (col*rozmiar_kwadratu, row*rozmiar_kwadratu + rozmiar_kwadratu, rozmiar_kwadratu, rozmiar_kwadratu))
 
 
 plansza = stworz_plansze()
 koniec_gry = False
 ruch = 1
 
-
 while not koniec_gry:
-            #ruch gracza nr1
-            if ruch == 1:
-                kolumna = int(input("Gracz 1 (wybierz kolumnę (0-6)): "))
-                if czy_jest_miejsce_w_kolumnie(plansza, kolumna):
-                    row = znajdz_nastepny_wolny_wiersz(plansza, kolumna)
-                    wrzuc_zeton(plansza, row, kolumna, 1)
-                    if(czy_wygral(plansza, 1)) == True:
-                        print("Gracz 1 wygrał!!!")
-                        koniec_gry = True
+    # ruch gracza nr1
+    if ruch == 1:
+        kolumna = int(input("Gracz 1 (wybierz kolumnę (0-6)): "))
+        if czy_jest_miejsce_w_kolumnie(plansza, kolumna):
+            row = znajdz_nastepny_wolny_wiersz(plansza, kolumna)
+            wrzuc_zeton(plansza, row, kolumna, 1)
+            if (czy_wygral(plansza, 1)) == True:
+                print("Gracz 1 wygrał!!!")
+                koniec_gry = True
 
-                ruch += 1
-            #ruch gracza nr2
-            else:
-                kolumna = int(input("Gracz 2 (wybierz kolumnę (0-6)): "))
-                if czy_jest_miejsce_w_kolumnie(plansza, kolumna):
-                    row = znajdz_nastepny_wolny_wiersz(plansza, kolumna)
-                    wrzuc_zeton(plansza, row, kolumna, 2)
-                    if (czy_wygral(plansza, 2)) == True:
-                        print("Gracz 2 wygrał!!!")
-                        koniec_gry = True
-                ruch = 1
+        ruch += 1
+    # ruch gracza nr2
+    else:
+        kolumna = int(input("Gracz 2 (wybierz kolumnę (0-6)): "))
+        if czy_jest_miejsce_w_kolumnie(plansza, kolumna):
+            row = znajdz_nastepny_wolny_wiersz(plansza, kolumna)
+            wrzuc_zeton(plansza, row, kolumna, 2)
+            if (czy_wygral(plansza, 2)) == True:
+                print("Gracz 2 wygrał!!!")
+                koniec_gry = True
+        ruch = 1
 
-            print(plansza)
-            if(koniec_gry == True): print("Koniec gry!!!")
+    print(plansza)
+    if (koniec_gry == True): print("Koniec gry!!!")
+
+
